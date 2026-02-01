@@ -26,7 +26,7 @@ let
     Source = Json.Document(
     Web.Contents(
     Host,
-    [RelativePath = "crm/v3/pipelines/deals", Query = queryParams, Headers=[#"Content-Type"="application/json", Authorization="Bearer xxx"]]
+    [RelativePath = "api/auth/users", Query = queryParams, Headers=[#"Content-Type"="application/json", Authorization="Bearer xxx"]]
     )),
     LL= @Source[results],
 Next = [limit="100", after = Source[#"paging"][#"next"][#"after"]],    result = try @LL & @GetPages(Next) otherwise @LL
@@ -37,7 +37,7 @@ in
 
 Fullset = GetPages([limit="100"]),
     #"Converted to Table" = Table.FromList(Fullset, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
-    #"Expanded Column1" = Table.ExpandRecordColumn(#"Converted to Table", "Column1", {"label", "displayOrder", "id", "stages", "createdAt", "updatedAt", "archived"}, {"Column1.label", "Column1.displayOrder", "Column1.id", "Column1.stages", "Column1.createdAt", "Column1.updatedAt", "Column1.archived"})
+    #"Expanded Column1" = Table.ExpandRecordColumn(#"Converted to Table", "Column1", {"id", "userName", "password"})
 in
     #"Expanded Column1"
 
