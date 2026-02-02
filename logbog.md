@@ -57,3 +57,14 @@ CALCULATE(
 )
 
 ```
+og en procentvis ændring:
+```
+Amount_CY_vs_LY_pct = 
+DIVIDE(
+    [Amount_CY] - [Amount_LY],
+    [Amount_LY],
+    0
+)
+
+```
+
