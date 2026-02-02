@@ -17,5 +17,43 @@
     Sletter de 4 nederste rækker.
    2. Fact-GL Entry
       Sletter 5 kolonner med null-værdier og column-navne, og sletter 4 nederste rækker
-   3. 
-   
+   3. Fact - VendorLedgerEntries 
+      Sletter kolonne med overskrift Source_Code, da den kun består af null-værdier og det samme med 5 nederste rækker.
+   4. Fact - CustLedgerEntries
+      Beholder det hele. Der er ingen null-værdier, men nogle med 0, som måske kunne slettes, men som jeg ikke er sikker på, om jeg vil bruge i senere sammeligninger.
+   5. Forsøgte at lukke og anvende. GL Entry drillede fordi den havde error i 206 rækker af DocumentNo. Rettede det ved at fjerne step: Ændret type.
+   6. Lavet en Calendar ift GL Entry, men skulle ændre Posting Date til type Dato for at det kunne lykkes med denne DAX:
+   ```
+Calendar = 
+ADDCOLUMNS(
+    CALENDAR(
+        MIN('Fact - GL Entry'[Posting Date]), 
+        MAX('Fact - GL Entry'[Posting Date])
+    ),
+    "Year", YEAR([Date]),
+    "MonthNumber", MONTH([Date]),
+    "MonthName", FORMAT([Date], "MMMM"),
+    "YearMonth", FORMAT([Date], "YYYY-MM"),
+    "Quarter", "Q" & FORMAT([Date], "Q"),
+    "DateKey", [Date]
+)
+```
+
+Lavede to measures for at kunne sammenligne sidste års amount med dette år:
+Current Year
+```
+Amount_CY = 
+CALCULATE(
+    SUM('Fact - GL Entry'[Amount]),
+    YEAR('Fact - GL Entry'[Posting Date]) = YEAR(TODAY())
+)
+```
+Last Year
+```
+Amount_LY = 
+CALCULATE(
+    SUM('Fact - GL Entry'[Amount]),
+    SAMEPERIODLASTYEAR('Calendar'[Date])
+)
+
+```
