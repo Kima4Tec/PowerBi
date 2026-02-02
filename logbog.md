@@ -4,8 +4,11 @@
 #### 1. Hente data fra excel
 #### 2. Transform 
    - vælger fire tabeller ud af 17, som er power bis forslag: Dim-Account, Fact - GL Entry, VendorLedgerEntries, CustLedgerEntries
-   GL-Entry → hovedbogen (det samlede regnskab)
+     
+   GL-Entry → hovedbogen (det samlede regnskab) 
+   
    VendorLedgerEntries → leverandører (kreditorer)
+    
    CustLedgerEntries → kunder (debitorer)
 #### 3. Renser data 
    1. Dim-account:   
