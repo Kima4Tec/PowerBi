@@ -45,8 +45,12 @@ Current Year
 Amount_CY = 
 CALCULATE(
     SUM('Fact - GL Entry'[Amount]),
-    YEAR('Fact - GL Entry'[Posting Date]) = YEAR(TODAY())
+    FILTER(
+        ALL('Calendar'),
+        'Calendar'[Year] = YEAR(TODAY())
+    )
 )
+
 ```
 Last Year
 ```
